@@ -21,19 +21,20 @@ var line = d3.line()
     .x(function(d) { return x(d.date); })
     .y(function(d) { return y(d.pages); });
 
-var totalPages = 160;
+const totalPages = 160;
+var restPages = totalPages;
 
 d3.csv("data.csv", function(d) {
   d.date = parseTime(d.date);
   d.pages = +d.pages;
-  totalPages -= d.pages;
-  d.pages = totalPages;
+  restPages -= d.pages;
+  d.pages = restPages;
   return d;
 }, function(error, data) {
   if (error) throw error;
 
   x.domain(d3.extent(data, function(d) { return d.date; }));
-  y.domain(d3.extent(data, function(d) { return d.pages; }));
+  y.domain([0, totalPages]);
 
   g.append("g")
       .attr("transform", "translate(0," + height + ")")
