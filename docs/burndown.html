@@ -25,33 +25,26 @@ var line = d3.line()
 const totalPages = 160;
 var restPages = totalPages;
 
-d3.csv("data.csv", function(d) {
-  d.date = parseTime(d.date);
-  d.pages = +d.pages;
-  restPages -= d.pages;
-  d.pages = restPages;
-
-  return d;
-}, function(error, data) {
+d3.csv("data.csv", pageCount, function(error, data) {
   if (error) throw error;
 
   x.domain(d3.extent(data, function(d) { return d.date; }));
   y.domain([0, totalPages]);
 
   g.append("g")
-      .attr("transform", "translate(0," + height + ")")
-      .call(d3.axisBottom(x))
+    .attr("transform", "translate(0," + height + ")")
+    .call(d3.axisBottom(x))
     .select(".domain");
 
   g.append("g")
-      .call(d3.axisLeft(y))
+    .call(d3.axisLeft(y))
     .append("text")
-      .attr("fill", "#000")
-      .attr("transform", "rotate(-90)")
-      .attr("y", 6)
-      .attr("dy", "0.71em")
-      .attr("text-anchor", "end")
-      .text("Pages");
+    .attr("fill", "#000")
+    .attr("transform", "rotate(-90)")
+    .attr("y", 6)
+    .attr("dy", "0.71em")
+    .attr("text-anchor", "end")
+    .text("Pages");
 
   g.append("path")
       .datum(data)
@@ -62,15 +55,24 @@ d3.csv("data.csv", function(d) {
       .attr("stroke-width", 1.5)
       .attr("d", line);
 
-      g.selectAll(".bar")
-        .data(data)
-        .enter().append("rect")
-          .attr("class", "bar")
-          .attr("x", function(d) { return x(d.date); })
-          .attr("y", function(d) { return y(d.pages); })
-          .attr("width", 10)
-          .attr("height", function(d) { return height - y(d.pages); });
+  g.selectAll(".bar")
+    .data(data)
+    .enter().append("rect")
+    .attr("class", "bar")
+    .attr("x", function(d) { return x(d.date); })
+    .attr("y", function(d) { return y(d.rest); })
+    .attr("width", 15)
+    .attr("height", function(d) { return height - y(d.rest); });
 
 });
+
+function pageCount(d) {
+  d.date = parseTime(d.date);
+  d.rest = d.pages;
+  d.pages = +d.pages;
+  restPages -= d.pages;
+  d.pages = restPages;
+  return d;
+}
 
 </script>
