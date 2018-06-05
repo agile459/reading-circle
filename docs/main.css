@@ -1,0 +1,37 @@
+body {
+  font-family: Verdana, Helvetica, "sans-serif";
+  font-size: 0.9em;
+
+  margin: 1em;
+
+  color: rgb(35, 35, 35);
+}
+
+svg {
+  background-color: rgb(248, 248, 248);
+}
+
+.bar {
+  fill: rgb(147, 175, 255);
+}
+
+.labels {
+  font-family: Verdana, Helvetica, "sans-serif";
+  font-size: 1.4em;
+}
+
+#x-axis .labels {
+  fill: rgb(111, 132, 192);
+}
+
+#y-axis .labels {
+  fill: rgb(255, 162, 124);
+}
+
+.scale .domain {
+  stroke: rgb(111, 111, 111);
+}
+
+.scale line {
+  stroke: rgb(70, 70, 70);
+}
