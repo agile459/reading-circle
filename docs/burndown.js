@@ -4,7 +4,7 @@ if (document.addEventListener) {
     });
 }
 
-const totalPages = 160;
+var totalPages = 160;
 var restPages = totalPages;
 
 function visualise() {
@@ -12,8 +12,8 @@ function visualise() {
   const chartContainer = d3.select('#chart-container');
 
   // overall SVG dimensions
-  const svgWidth = 960;
-  const svgHeight = 500;
+  const svgWidth = 720;
+  const svgHeight = 400;
 
   // margins also accommodate dimensions of axes labels
   const margin = {top: 40, left: 40, bottom: 40, right: 40};
@@ -35,8 +35,6 @@ function visualise() {
       .attr('width', w)
       .attr('height', h);
 
-  var parseTime = d3.timeParse("%Y-%m-%d");
-
   var x = d3.scaleTime()
       .rangeRound([0, w]);
 
@@ -49,7 +47,7 @@ function visualise() {
 
   d3.csv("data.csv", pageCount, function(error, data) {
     if (error) throw error;
-
+    console.log("csv", data);
     x.domain(d3.extent(data, function(d) { return d.date; }));
     y.domain([0, totalPages]);
 
@@ -79,13 +77,27 @@ function visualise() {
 
     chart.selectAll(".bar")
       .data(data)
-      .enter().append("rect")
+      .enter()
+      .append("rect")
       .attr("class", "bar")
       .attr("x", function(d) { return x(d.date); })
       .attr("y", function(d) { return y(d.rest); })
       .attr("width", 15)
       .attr("height", function(d) { return h - y(d.rest); });
 
+    chart.selectAll("div")
+    .data(data)
+    .attr("x", function(d) { return x(d.date); })
+    .attr("y", function(d) { return y(d.rest); })
+    .text(function(d) { return y(d.rest); })
+
+  });
+
+  d3.json("data.json", function(data) {
+      console.log(data.totalPages);
+      for (var i in data.events) {
+          console.log(data.events[i].date, data.events[i].pages);
+      };
   });
 }
 
