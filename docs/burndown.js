@@ -85,20 +85,8 @@ function visualise() {
       .attr("width", 15)
       .attr("height", function(d) { return h - y(d.rest); });
 
-    chart.selectAll("div")
-    .data(data)
-    .attr("x", function(d) { return x(d.date); })
-    .attr("y", function(d) { return y(d.rest); })
-    .text(function(d) { return y(d.rest); })
-
   });
 
-  d3.json("data.json", function(data) {
-      console.log(data.totalPages);
-      for (var i in data.events) {
-          console.log(data.events[i].date, data.events[i].pages);
-      };
-  });
 }
 
 function pageCount(d) {
