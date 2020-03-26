@@ -4,7 +4,7 @@ if (document.addEventListener) {
     });
 }
 
-var totalPages = 160;
+var totalPages = 269;
 var restPages = totalPages;
 
 function visualise() {
@@ -45,7 +45,7 @@ function visualise() {
       .x(function(d) { return x(d.date); })
       .y(function(d) { return y(d.pages); });
 
-  d3.csv("_fc.csv", pageCount, function(error, data) {
+  d3.csv("data_fc.csv", pageCount, function(error, data) {
     if (error) throw error;
     console.log("csv", data);
     x.domain(d3.extent(data, function(d) { return d.date; }));
